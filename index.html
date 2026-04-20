@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy 18th 💜</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #E6E6FA, #d8b4fe);
+    color: #333;
+    overflow-x: hidden;
+}
+
+/* sections */
+section {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+}
+
+/* glass card */
+.card {
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.1);
+}
+
+/* text */
+h1 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+p {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* button */
+button {
+    margin-top: 20px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 25px;
+    background: #8b5cf6;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+/* hidden */
+.hidden {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 1s ease;
+}
+
+.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* floating hearts */
+.heart {
+    position: fixed;
+    color: #a855f7;
+    animation: floatUp 6s linear infinite;
+}
+
+@keyframes floatUp {
+    0% { transform: translateY(100vh) scale(0.5); opacity: 1; }
+    100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+}
+
+/* confetti */
+canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+/* no button */
+#noBtn {
+    position: relative;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="confetti"></canvas>
+
+<section>
+<div class="card">
+    <h1>Hey… wait 💜</h1>
+    <p>This is not just a website… this is something I made for you.</p>
+    <button onclick="start()">Start</button>
+</div>
+</section>
+
+<section class="hidden">
+<div class="card">
+    <h1>Our Story</h1>
+    <p>
+        From random talks…<br>
+        to something I never want to lose.<br><br>
+        We were never perfect…<br>
+        but somehow… we always chose each other.
+    </p>
+</div>
+</section>
+
+<section class="hidden">
+<div class="card">
+    <h1>Why You?</h1>
+    <p>
+        Tera attitude… still my favorite thing.<br><br>
+        The way you stayed… when things weren’t easy.<br><br>
+        And the way you understand me… without me saying much.
+    </p>
+</div>
+</section>
+
+<section class="hidden">
+<div class="card">
+    <h1>Us</h1>
+    <p>
+        Late night talks…<br>
+        Fights… then fixing everything again…<br><br>
+        That 4AM effort…<br>
+        And still choosing each other after everything.
+    </p>
+</div>
+</section>
+
+<section class="hidden">
+<div class="card">
+    <h1>Happy 18th Birthday 💜</h1>
+    <p>
+        You’re not just special…<br>
+        you’re real.<br><br>
+        And in a world where everything changes…<br>
+        I just want us to stay.
+    </p>
+</div>
+</section>
+
+<section class="hidden">
+<div class="card">
+    <h1>Do you love me? 😌</h1>
+    <button onclick="yesClick()">Yes 💜</button>
+    <button id="noBtn">No 😏</button>
+
+    <p id="finalText" style="display:none; margin-top:20px;">
+        I knew it 💜<br><br>
+        Happy Birthday…<br>
+        I just want you. Always.
+    </p>
+</div>
+</section>
+
+<script>
+// scroll reveal
+const sections = document.querySelectorAll("section");
+
+window.addEventListener("scroll", () => {
+    sections.forEach(sec => {
+        const top = sec.getBoundingClientRect().top;
+        if (top < window.innerHeight - 100) {
+            sec.classList.add("show");
+        }
+    });
+});
+
+// start scroll
+function start() {
+    window.scrollTo({
+        top: window.innerHeight,
+        behavior: "smooth"
+    });
+    confettiStart();
+    hearts();
+}
+
+// yes
+function yesClick() {
+    document.getElementById("finalText").style.display = "block";
+}
+
+// no button escape 😏
+const noBtn = document.getElementById("noBtn");
+
+noBtn.addEventListener("touchstart", moveNo);
+noBtn.addEventListener("mouseover", moveNo);
+
+function moveNo() {
+    const x = Math.random() * (window.innerWidth - 100);
+    const y = Math.random() * (window.innerHeight - 50);
+    noBtn.style.position = "absolute";
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+}
+
+// hearts
+function hearts() {
+    setInterval(() => {
+        let heart = document.createElement("div");
+        heart.innerHTML = "💜";
+        heart.classList.add("heart");
+        heart.style.left = Math.random() * 100 + "vw";
+        document.body.appendChild(heart);
+
+        setTimeout(() => {
+            heart.remove();
+        }, 6000);
+    }, 400);
+}
+
+// confetti
+function confettiStart() {
+    const canvas = document.getElementById("confetti");
+    const ctx = canvas.getContext("2d");
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    let pieces = [];
+
+    for (let i = 0; i < 200; i++) {
+        pieces.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 6 + 2,
+            speed: Math.random() * 3 + 2
+        });
+    }
+
+    function update() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        pieces.forEach(p => {
+            p.y += p.speed;
+            if (p.y > canvas.height) p.y = 0;
+
+            ctx.fillStyle = "#a855f7";
+            ctx.fillRect(p.x, p.y, p.size, p.size);
+        });
+
+        requestAnimationFrame(update);
+    }
+
+    update();
+}
+</script>
+
+</body>
+</html>
